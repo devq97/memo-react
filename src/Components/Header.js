@@ -4,7 +4,7 @@ import { Navbar } from "react-bootstrap";
 const Header = () => {
   return (
     <Navbar bg="primary" variant="dark">
-      <Navbar.Brand href="#home">Memorización Show Infantil</Navbar.Brand>
+      <Navbar.Brand href="#home">Memorización Show Infantil - Ro 8:1-13</Navbar.Brand>
       <Navbar.Toggle />
       <Navbar.Collapse className="justify-content-end">
         <Navbar.Text>
