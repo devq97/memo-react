@@ -1,3 +1,5 @@
+@import '~antd/dist/antd.css';
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -34,4 +36,17 @@ code {
   left: 0;
   top: 85%;
   z-index: 999999;
+}
+
+.demo-loadmore-list {
+  min-height: 350px;
+}
+
+.site-page-header {
+  border: 1px solid rgb(36, 117, 238);
+  background-color: rgb(36, 117, 238);
+}
+
+.site-page-header span {
+  color: #FFF;
 }

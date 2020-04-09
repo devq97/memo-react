@@ -1,9 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import Header from "./Components/Header";
-import Asignacion from "./Components/Asignacion";
 import axios from "axios";
-import Loading from "./Components/Loading";
-import Notificacion from "./Components/Notificacion";
+import Demo from "./Components/Collapse";
+import Header from './Components/Header';
 
 function App() {
 
@@ -20,15 +18,15 @@ function App() {
           setLoading(false);
         })
     };
-    setLoading(true);
-    fetchData().then();
+    //setLoading(true);
+    //fetchData().then();
   }, []);
 
   return (
     <div className="App w-100">
-      {loading ? <Loading animation="grow" variant="primary" /> : null}
-      <Header/>
-      <Asignacion
+      {/* {loading ? <Loading animation="grow" variant="primary" /> : null} */}
+      <Header />
+      {/* <Asignacion
         responsables={responsables}
         setResponsables={setResponsables}
         setLoading={setLoading}
@@ -40,7 +38,8 @@ function App() {
         clase="bg-success"
         show={show}
         setShow={setShow}
-      /> : null}
+      /> : null}  */}
+      <Demo />
     </div>
   );
 }

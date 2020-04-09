@@ -1,18 +1,12 @@
-import React from "react";
-import { Navbar } from "react-bootstrap";
+import React from 'react';
+import { PageHeader } from 'antd';
 
-const Header = () => {
-  return (
-    <Navbar bg="primary" variant="dark">
-      <Navbar.Brand href="#home">Memorización Show Infantil - Ro 8:1-13</Navbar.Brand>
-      <Navbar.Toggle />
-      <Navbar.Collapse className="justify-content-end">
-        <Navbar.Text>
-          Copyright: <a href="#!">Iglesia Cristiana Aures II</a>
-        </Navbar.Text>
-      </Navbar.Collapse>
-    </Navbar>
-  )
-};
+const Header = () => (
+  <PageHeader
+    className="site-page-header"
+    title="Memorización ICA2"
+    subTitle="Salmos 119: 1 - 40"
+  />
+);
 
 export default Header;
