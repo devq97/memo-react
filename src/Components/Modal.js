@@ -5,6 +5,7 @@ import axios from "axios";
 const ModalView = ({visible, setVisible, editTeam, persons, setPersons, initialState, setInitialState}) => {
 
   const [ loading, setLoading ] = useState(false);
+  const [ localValue, setLocalValue ] = useState(0);
   const { Panel } = Collapse;
 
   /**
@@ -14,6 +15,13 @@ const ModalView = ({visible, setVisible, editTeam, persons, setPersons, initialS
   const handleSubmit = async () => {
 
     setLoading(true);
+
+    if (localValue === 0) {
+      setLoading(false);
+      // Open notification
+      openNotificationWithIcon('warning', 'Mal', 'Por favor selecciona el mes e ingresa hasta qué versículo fue presentado (Mayor a cero).');
+      return;
+    }
 
     const data = {
       idPerson: persons[editTeam.person].idPerson,
@@ -118,6 +126,8 @@ const ModalView = ({visible, setVisible, editTeam, persons, setPersons, initialS
            array
        }
     })
+
+    setLocalValue(value);
 
   }
 
