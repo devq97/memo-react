@@ -1,11 +1,11 @@
 import React from 'react';
 import { List, Avatar, Tag, Timeline } from 'antd';
 
-const Listado = ({persons, setVisible, team, editTeam, setEditTeam}) => {
+const ListDetail = ({persons, setVisible, team, editTeam, setEditTeam}) => {
 
   const handleClick = (id) => {
     setEditTeam({
-      team: team.id,
+      team: team.idTeam,
       person: id
     })
     setVisible(true);
@@ -14,10 +14,10 @@ const Listado = ({persons, setVisible, team, editTeam, setEditTeam}) => {
   return (
     <List
       itemLayout="horizontal"
-      dataSource={team.personas}
+      dataSource={team.persons}
       renderItem={
         item => (
-          <List.Item 
+          <List.Item
             onClick={() => handleClick(item.id)}
           >
             <List.Item.Meta
@@ -27,12 +27,12 @@ const Listado = ({persons, setVisible, team, editTeam, setEditTeam}) => {
                 </Avatar>
               }
               title={<a href="#!">{persons[item.id].name}</a>}
-              description= { 
-                persons[item.id].state === 1 ? 
+              description= {
+                persons[item.id].state === 1 ?
                 <Timeline>
                   {persons[item.id].report.map( event => (
                     event.status === 1 ?
-                    <Timeline.Item 
+                    <Timeline.Item
                       key={event.id}
                       color={event.max <= event.verse ? 'green' : 'red'}
                     >
@@ -40,7 +40,7 @@ const Listado = ({persons, setVisible, team, editTeam, setEditTeam}) => {
                     </Timeline.Item> : null
                   ))}
                 </Timeline>
-                : 
+                :
                   <Tag color="warning">Pendiente por reportar</Tag>
               }
             />
@@ -50,4 +50,4 @@ const Listado = ({persons, setVisible, team, editTeam, setEditTeam}) => {
   )
 }
 
-export default Listado;
+export default ListDetail;
