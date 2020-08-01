@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Collapse, notification, Spin } from "antd";
-import { SettingOutlined } from "@ant-design/icons";
 import axios from "axios";
 
 import ListDetail from "./List";
