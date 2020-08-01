@@ -1,11 +1,27 @@
-import React, { useState } from 'react';
-import {Modal, Button, Tag, Collapse, Radio, InputNumber, Form, notification} from 'antd';
+import React, { useState } from "react";
+import {
+  Modal,
+  Button,
+  Tag,
+  Collapse,
+  Radio,
+  InputNumber,
+  Form,
+  notification,
+} from "antd";
 import axios from "axios";
 
-const ModalView = ({visible, setVisible, editTeam, persons, setPersons, initialState, setInitialState}) => {
-
-  const [ loading, setLoading ] = useState(false);
-  const [ localValue, setLocalValue ] = useState(0);
+const ModalView = ({
+  visible,
+  setVisible,
+  editTeam,
+  persons,
+  setPersons,
+  initialState,
+  setInitialState,
+}) => {
+  const [loading, setLoading] = useState(false);
+  const [localValue, setLocalValue] = useState(0);
   const { Panel } = Collapse;
 
   /**
@@ -13,13 +29,16 @@ const ModalView = ({visible, setVisible, editTeam, persons, setPersons, initialS
    * @returns {Promise<void>}
    */
   const handleSubmit = async () => {
-
     setLoading(true);
 
     if (localValue === 0) {
       setLoading(false);
       // Open notification
-      openNotificationWithIcon('warning', 'Mal', 'Por favor selecciona el mes e ingresa hasta qué versículo fue presentado (Mayor a cero).');
+      openNotificationWithIcon(
+        "warning",
+        "Mal",
+        "Por favor selecciona el mes e ingresa hasta qué versículo fue presentado (Mayor a cero)."
+      );
       return;
     }
 
@@ -30,20 +49,24 @@ const ModalView = ({visible, setVisible, editTeam, persons, setPersons, initialS
       gender: persons[editTeam.person].gender,
       color: persons[editTeam.person].color,
       state: 1,
-      report: persons[editTeam.person].report
-    }
+      report: persons[editTeam.person].report,
+    };
 
     try {
-
-      await axios.patch(`https://memo-api-rest.herokuapp.com/persons/${persons[editTeam.person]._id}`, data);
+      await axios.patch(
+        `https://memo-api-rest.herokuapp.com/persons/${
+          persons[editTeam.person]._id
+        }`,
+        data
+      );
 
       setPersons({
         ...persons,
         [editTeam.person]: {
           ...persons[editTeam.person],
-          state: 1
-        }
-      })
+          state: 1,
+        },
+      });
 
       setInitialState(persons);
 
@@ -51,58 +74,57 @@ const ModalView = ({visible, setVisible, editTeam, persons, setPersons, initialS
         ...persons,
         [editTeam.person]: {
           ...persons[editTeam.person],
-          state: 1
-        }
-      })
+          state: 1,
+        },
+      });
 
       // Open notification
-      openNotificationWithIcon('success', 'Confirmación', 'Se ha registrado el cambio correctamente.');
-
+      openNotificationWithIcon(
+        "success",
+        "Confirmación",
+        "Se ha registrado el cambio correctamente."
+      );
     } catch (e) {
-
       console.error(e);
       setPersons(initialState);
       // Open notification
-      openNotificationWithIcon('error', 'Error', 'Ocurrió un error al registrar el cambio.');
-
+      openNotificationWithIcon(
+        "error",
+        "Error",
+        "Ocurrió un error al registrar el cambio."
+      );
     }
 
-      setLoading(false);
-      setVisible(false);
-
+    setLoading(false);
+    setVisible(false);
   };
 
   /**
    * Handle cancel of modal
    */
   const handleCancel = () => {
-
     setPersons(initialState);
     setVisible(false);
-
   };
 
   /**
    * Handle change of radio input
    * @param id
    */
-  const handleRadioOnChange = id => {
-
+  const handleRadioOnChange = (id) => {
     let array = persons[editTeam.person].report.slice();
     array[id] = {
       ...persons[editTeam.person].report[id],
-      status: 1
-    }
+      status: 1,
+    };
 
     setPersons({
       ...persons,
       [editTeam.person]: {
         ...persons[editTeam.person],
-        report:
-          array
-      }
-    })
-
+        report: array,
+      },
+    });
   };
 
   /**
@@ -110,26 +132,23 @@ const ModalView = ({visible, setVisible, editTeam, persons, setPersons, initialS
    * @param id
    * @returns {Function}
    */
-  const handleInputOnChange = id => value => {
-
+  const handleInputOnChange = (id) => (value) => {
     let array = persons[editTeam.person].report.slice();
     array[id] = {
-       ...persons[editTeam.person].report[id],
-       verse: value
-     }
+      ...persons[editTeam.person].report[id],
+      verse: value,
+    };
 
-     setPersons({
-       ...persons,
-       [editTeam.person]: {
-         ...persons[editTeam.person],
-         report:
-           array
-       }
-    })
+    setPersons({
+      ...persons,
+      [editTeam.person]: {
+        ...persons[editTeam.person],
+        report: array,
+      },
+    });
 
     setLocalValue(value);
-
-  }
+  };
 
   /**
    * Open notification
@@ -138,7 +157,7 @@ const ModalView = ({visible, setVisible, editTeam, persons, setPersons, initialS
   const openNotificationWithIcon = (type, message, description) => {
     notification[type]({
       message: message,
-      description: description
+      description: description,
     });
   };
 
@@ -153,51 +172,60 @@ const ModalView = ({visible, setVisible, editTeam, persons, setPersons, initialS
           <Button key="back" size="small" onClick={handleCancel}>
             Atrás
           </Button>,
-          <Button key="submit" size="small" type="primary" loading={loading} onClick={handleSubmit}>
+          <Button
+            key="submit"
+            size="small"
+            type="primary"
+            loading={loading}
+            onClick={handleSubmit}
+          >
             Confirmar
           </Button>,
         ]}
       >
         <Collapse expandIconPosition="right">
-          {
-            persons[Number(editTeam.person)].report.map(item => (
-              <Panel header={'Mes ' + (item.id+1)} key={item.id} disabled={!item.available}>
-                <Radio.Group onChange={() => handleRadioOnChange(item.id)} value={item.status}>
-                  <Radio value={0}>No presentado</Radio>
-                  <Radio value={1}>Presentado</Radio>
-                </Radio.Group>
-                {
-                  item.status === 1 && item.available === 1 ?
-                    <Form>
-                      <Form.Item label="¿Hasta qué versículo presentó?">
-                        <InputNumber
-                          size="small"
-                          min={0}
-                          max={40}
-                          defaultValue={1}
-                          value={item.verse}
-                          onChange={handleInputOnChange(item.id)}
-                        />
-                      </Form.Item>
-                    </Form>
-                  :
-                    null
-                }
-
-              </Panel>
-            ))
-          }
+          {persons[Number(editTeam.person)].report.map((item) => (
+            <Panel
+              header={"Mes " + (item.id + 1)}
+              key={item.id}
+              disabled={!item.available}
+            >
+              <Radio.Group
+                onChange={() => handleRadioOnChange(item.id)}
+                value={item.status}
+              >
+                <Radio value={0}>No presentado</Radio>
+                <Radio value={1}>Presentado</Radio>
+              </Radio.Group>
+              {item.status === 1 && item.available === 1 ? (
+                <Form>
+                  <Form.Item label="¿Hasta qué versículo presentó?">
+                    <InputNumber
+                      size="small"
+                      min={0}
+                      max={item.max}
+                      defaultValue={1}
+                      value={item.verse}
+                      onChange={handleInputOnChange(item.id)}
+                    />
+                  </Form.Item>
+                </Form>
+              ) : null}
+            </Panel>
+          ))}
         </Collapse>
-        <br/>
+        <br />
         <Tag
           key="tag"
-          color={persons[Number(editTeam.person)].gender === 'M' ? 'green' : 'purple'}
+          color={
+            persons[Number(editTeam.person)].gender === "M" ? "green" : "purple"
+          }
         >
           {persons[Number(editTeam.person)].name}
         </Tag>
       </Modal>
     </div>
   );
-}
+};
 
 export default ModalView;
